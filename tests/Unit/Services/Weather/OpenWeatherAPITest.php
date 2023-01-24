@@ -36,11 +36,10 @@ class OpenWeatherAPITest extends TestCase
             $this->assertEquals(10.0, $request->data()['lat'] ?? null);
             $this->assertEquals(11.0, $request->data()['lon'] ?? null);
             $this->assertEquals( "minutely,hourly", $request->data()['exclude'] ?? null);
-            $this->assertEquals( "metric", $request->data()['unit'] ?? null);
 
             $caught = true;
 
-            return Http::response(['hourly' => []]);
+            return Http::response(['daily' => []]);
         });
 
         $openWeatherAPI = app(OpenWeatherAPI::class);

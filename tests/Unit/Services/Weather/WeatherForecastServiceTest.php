@@ -19,17 +19,15 @@ class WeatherForecastServiceTest extends TestCase
                 ->with(10.0, 20.0)
                 ->times(1)
                 ->andReturn([
-                    'daily' => [
-                        [
-                            'dt' => 10000,
-                            'temp' => ['day' => 20],
-                            'pressure' => 888
-                        ],
-                        [
-                            'dt' => 20000,
-                            'temp' => ['day' => 25],
-                            'pressure' => 988
-                        ]
+                    [
+                        'dt' => 10000,
+                        'temp' => 20,
+                        'pressure' => 888
+                    ],
+                    [
+                        'dt' => 20000,
+                        'temp' => 25,
+                        'pressure' => 988
                     ]
                 ]);
         });

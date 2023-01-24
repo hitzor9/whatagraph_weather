@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\PayloadException;
 use App\Services\Geocoding\GeocoderService;
 use App\Services\Weather\WeatherForecastService;
 use App\Services\Whatagraph\WhatagraphService;
@@ -61,7 +62,7 @@ class ExportWeatherDataCommand extends Command
                 $whatagraphService = app(WhatagraphService::class);
                 $whatagraphService->setup();
                 $whatagraphService->pushDataPoint($metricsCollection);
-            } catch (\Throwable $e) {
+            } catch (PayloadException $e) {
                 $this->getOutput()->error($e->getMessage());
                 report($e);
 

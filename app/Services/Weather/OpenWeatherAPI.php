@@ -58,7 +58,6 @@ class OpenWeatherAPI implements GeocoderInterface, WeatherForecastInterface
             'lon'       => $lng,
             'appid'     => $this->apiKey,
             'exclude'   => 'minutely,hourly',
-            'unit'      => 'metric'
         ]);
 
         if (!$response->successful()) {
@@ -68,6 +67,10 @@ class OpenWeatherAPI implements GeocoderInterface, WeatherForecastInterface
             );
         }
 
-        return $response->json();
+        return array_map(fn($item) => [
+            'dt'        => $item['dt'],
+            'temp'      => $item['temp']['day'],
+            'pressure'  => $item['pressure']
+        ], $response->json('daily'));
     }
 }

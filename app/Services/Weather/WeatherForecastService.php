@@ -25,12 +25,12 @@ class WeatherForecastService
 
         $metricsCollection = collect();
 
-        foreach($dailyForecast['daily'] ?? [] as $forecastDay) {
+        foreach($dailyForecast ?? [] as $forecastDay) {
             $metricsCollection->push(
                 new DailyForecastMetrics(
                     $coordinatesDto->getCityName(),
                     Carbon::createFromTimestamp($forecastDay['dt']),
-                    $forecastDay['temp']['day'],
+                    $forecastDay['temp'],
                     $forecastDay['pressure'],
                 )
             );
