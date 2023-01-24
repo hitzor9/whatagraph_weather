@@ -10,6 +10,30 @@ use InvalidArgumentException;
 
 class WhatagraphAPI
 {
+    public const DEFAULT_METRICS = [
+        [
+            'name' => 'Weather',
+            'external_id' => WhatagraphAPI::METRIC_WEATHER_KEY,
+            'type' => 'float',
+            'accumulator' => 'last',
+            'negative_ratio' => true,
+        ],
+        [
+            'name' => 'Pressure',
+            'external_id' => WhatagraphAPI::METRIC_PRESSURE_KEY,
+            'type' => 'float',
+            'accumulator' => 'last',
+            'negative_ratio' => false,
+        ]
+    ];
+    public const DEFAULT_DIMENSIONS = [
+        [
+            'name' => 'city',
+            'external_id' => WhatagraphAPI::DIMENSION_CITY_KEY,
+            'type' => 'string',
+        ]
+    ];
+
     private string $apiKey;
 
     public const DIMENSION_CITY_KEY = 'city';

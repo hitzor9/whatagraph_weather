@@ -11,31 +11,6 @@ use Illuminate\Support\Facades\Cache;
 
 class WhatagraphService
 {
-    private const DEFAULT_METRICS = [
-        [
-            'name'          => 'Weather',
-            'external_id'   => WhatagraphAPI::METRIC_WEATHER_KEY,
-            'type'          => 'float',
-            'accumulator'   => 'last',
-            'negative_ratio' => true,
-        ],
-        [
-            'name'          => 'Pressure',
-            'external_id'   => WhatagraphAPI::METRIC_PRESSURE_KEY,
-            'type'          => 'float',
-            'accumulator'   => 'last',
-            'negative_ratio' => false,
-        ]
-    ];
-
-    private const DEFAULT_DIMENSIONS = [
-        [
-            'name'          => 'city',
-            'external_id'   => WhatagraphAPI::DIMENSION_CITY_KEY,
-            'type'          => 'string',
-        ]
-    ];
-
     public function __construct(
         private WhatagraphAPI $whatagraphAPI
     )
@@ -61,14 +36,12 @@ class WhatagraphService
     */
     public function setup(): void
     {
-        Cache::get(
-            $this->getTokenCacheKey(),
-            function () {
-                $this->setupDimensions();
-                $this->setupMetrics();
-                Cache::rememberForever($this->getTokenCacheKey(), fn() => 1);
-            }
-        );
+        Cache::rememberForever($this->getTokenCacheKey(), function() {
+            $this->setupDimensions();
+            $this->setupMetrics();
+
+            return 1;
+        });
     }
 
     /**
@@ -76,7 +49,7 @@ class WhatagraphService
      */
     private function setupDimensions(): void
     {
-        foreach (static::DEFAULT_DIMENSIONS as $dimensionSettings)
+        foreach (WhatagraphAPI::DEFAULT_DIMENSIONS as $dimensionSettings)
         {
             $this->whatagraphAPI->addDimension($dimensionSettings);
         }
@@ -87,7 +60,7 @@ class WhatagraphService
      */
     private function setupMetrics(): void
     {
-        foreach (static::DEFAULT_METRICS as $dimensionSettings)
+        foreach (WhatagraphAPI::DEFAULT_METRICS as $dimensionSettings)
         {
             $this->whatagraphAPI->addMetric($dimensionSettings);
         }

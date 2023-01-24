@@ -40,6 +40,7 @@ class ExportWeatherDataCommand extends Command
         /**
          * @var GeocoderService $geocoderService
          * @var WeatherForecastService $forecastService
+         * @var WhatagraphService $whatagraphService
          */
 
         $metricsCollection = collect();
@@ -57,7 +58,9 @@ class ExportWeatherDataCommand extends Command
                 //In case amount of data going to be extremely huge, but strict size per city, we can push it by city-based batches.
                 //For example for weekly forecast for 1000 cities we can accumulate data points for 100 cities and push it separately to avoid memory overflow
 
-                app(WhatagraphService::class)->pushDataPoint($metricsCollection);
+                $whatagraphService = app(WhatagraphService::class);
+                $whatagraphService->setup();
+                $whatagraphService->pushDataPoint($metricsCollection);
             } catch (\Throwable $e) {
                 $this->getOutput()->error($e->getMessage());
                 report($e);
