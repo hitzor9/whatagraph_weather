@@ -49,8 +49,7 @@ class WhatagraphService
      */
     private function setupDimensions(): void
     {
-        foreach (WhatagraphAPI::DEFAULT_DIMENSIONS as $dimensionSettings)
-        {
+        foreach (WhatagraphAPI::DEFAULT_DIMENSIONS as $dimensionSettings) {
             $this->whatagraphAPI->addDimension($dimensionSettings);
         }
     }
@@ -60,8 +59,7 @@ class WhatagraphService
      */
     private function setupMetrics(): void
     {
-        foreach (WhatagraphAPI::DEFAULT_METRICS as $dimensionSettings)
-        {
+        foreach (WhatagraphAPI::DEFAULT_METRICS as $dimensionSettings) {
             $this->whatagraphAPI->addMetric($dimensionSettings);
         }
     }
